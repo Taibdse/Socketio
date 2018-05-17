@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <script src="libs/jquery-3.1.0.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <title>Document</title>
+
+</head>
+<body>
+    <h1>SOCKET IO</h1>
+    <div id="mrA">Click here</div>
+    <div id="content"></div>
+    <script>
+        var socket = io("http://localhost:3000");
+        $(function(){
+            $("#mrA").click(function(){
+                socket.emit("Client-send-data", "Hello");
+            })
+
+            socket.on("Server-send-data", function(data){
+                $('#content').append(data + ", ")
+            })
+        })
+    </script>
+</body>
+</html>

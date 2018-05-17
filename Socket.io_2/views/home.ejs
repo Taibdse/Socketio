@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="libs/jquery-3.1.0.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <script src="socket.io/socket.io.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>SOCKET IO</h1>
+    <div class="red circle"></div>
+    <div class="green circle"></div>
+    <div class="blue circle"></div>
+
+    <input type="number" placeholder="Enter number 1" class="num">
+    <input type="number" placeholder="Enter number 2" class="num">
+    <div class="sum">Sum of 2 numbers</div>
+    <script>
+        var socket = io("http://localhost:3000");
+        $(function () {
+
+
+            socket.on("Server-send-data", function (data) {
+                console.log(data);
+            })
+
+            $(".circle").click(function () {
+                var send_data = $(this).attr('class').split(" ")[0];
+                console.log(send_data);
+                socket.emit("Client-send-color", send_data);
+                socket.on("Server-send-color", function (data) {
+                    $('body').css({
+                        'background-color': data
+                    });
+                })
+            })
+
+            $('.num').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    var num1 = parseInt($('.num').first().val());
+                    var num2 = parseInt($('.num').last().val());
+                    socket.emit("Client-send-num", {
+                        num1: num1,
+                        num2: num2
+                    });
+                }
+            })
+            socket.on("Server-send-sum", function (data) {
+                console.log(data);
+                $('.sum').text(`Sum is: ${data}`);
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+*, html{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.clear{
+    display: block;
+    float: left;
+}
+a{
+    text-decoration: none;
+}
+#content{
+    background-color:antiquewhite;
+    font-weight: bold;
+    color: rgb(219, 30, 30);
+}
